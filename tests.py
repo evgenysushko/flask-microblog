@@ -19,7 +19,7 @@ class UserModelCase(unittest.TestCase):
         self.assertTrue(u.check_password('cat'))
 
     def test_avatar(self):
-        u = User(username='john', email='john@example.com')
+        u = User(username='John', email='john@example.com')
         self.assertEqual(u.avatar(128), ('https://www.gravatar.com/avatar/'
                                          'd4c74594d841139328695756648b6bd6'
                                          '?d=identicon&s=128'))
@@ -31,7 +31,7 @@ class UserModelCase(unittest.TestCase):
         db.session.add(u2)
         db.session.commit()
         self.assertEqual(u1.followed.all(), [])
-        self.assertEqual(u1.followers.all(), [])
+        self.assertEqual(u2.followers.all(), [])
 
         u1.follow(u2)
         db.session.commit()
@@ -84,6 +84,7 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(f2, [p2, p3])
         self.assertEqual(f3, [p3, p4])
         self.assertEqual(f4, [p4])
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Conda env
+conda-env
+
 # C extensions
 *.so
 

@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask.logging import create_logger
+from flask_mail import Mail
 
 my_app = Flask(__name__)
 my_app.config.from_object(Config)
@@ -14,6 +15,7 @@ migrate = Migrate(my_app, db)
 login = LoginManager(my_app)
 login.login_view = 'login'
 log = create_logger(my_app)
+mail = Mail(my_app)
 
 if not my_app.debug:
     if my_app.config['MAIL_SERVER']:
@@ -41,6 +43,6 @@ if not my_app.debug:
     log.addHandler(file_handler)
 
     log.setLevel(logging.INFO)
-    log.info('_Microblog startup_')
+    log.info('* Microblog startup *')
 
 from app import routes, models, errors
