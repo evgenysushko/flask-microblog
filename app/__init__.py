@@ -8,6 +8,7 @@ from flask_login import LoginManager
 from flask.logging import create_logger
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
+from flask_moment import Moment
 
 my_app = Flask(__name__)
 my_app.config.from_object(Config)
@@ -18,6 +19,7 @@ login.login_view = 'login'
 log = create_logger(my_app)
 mail = Mail(my_app)
 bootstrap = Bootstrap(my_app)
+moment = Moment(my_app)
 
 if not my_app.debug:
     if my_app.config['MAIL_SERVER']:
