@@ -6,6 +6,10 @@ __pycache__/
 # Conda env
 conda-env
 
+# VSCODE
+.vscode
+*.code-workspace
+
 # C extensions
 *.so
 
