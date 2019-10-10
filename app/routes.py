@@ -3,6 +3,7 @@ from flask import render_template, flash, redirect, url_for, request, g
 from flask_babel import _, get_locale
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
+from guess_language import guess_language
 from app import my_app, db
 from app.forms import (
     LoginForm, RegistrationForm, EditProfileForm, PostForm,
@@ -26,7 +27,11 @@ def before_request():
 def index():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(body=form.post.data, author=current_user)
+        language = guess_language(form.post.data)
+        if language == 'UNKNOWN' or len(language) > 5:
+            language = ''
+        post = Post(body=form.post.data, author=current_user,
+                    language=language)
         db.session.add(post)
         db.session.commit()
         flash(_('Your post is now live!'))
@@ -164,14 +169,14 @@ def edit_profile():
 def follow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        flash(_('User {} not found.'.format(username)))
+        flash(_('User %(username)s not found.', username=username))
         return redirect(url_for('index'))
     if user == current_user:
         flash(_('You cannot follow yourself!'))
         return redirect(url_for('user', username=username))
     current_user.follow(user)
     db.session.commit()
-    flash(_('You are following {}!'.format(username)))
+    flash(_('You are following %(username)s!', username=username))
     return redirect(url_for('user', username=username))
 
 
@@ -180,12 +185,12 @@ def follow(username):
 def unfollow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        flash(_('User {} not found.'.format(username)))
+        flash(_('User %(username)s not found.', username=username))
         return redirect(url_for('index'))
     if user == current_user:
         flash(_('You cannot unfollow yourself!'))
         return redirect(url_for('user', username=username))
     current_user.unfollow(user)
     db.session.commit()
-    flash(_('You are not following {}.'.format(username)))
+    flash(_('You are not following %(username)s.', username=username))
     return redirect(url_for('user', username=username))
