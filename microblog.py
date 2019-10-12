@@ -1,4 +1,4 @@
-from app import my_app, db
+from app import my_app, db, cli
 from app.models import User, Post
 
 
