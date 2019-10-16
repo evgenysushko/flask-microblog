@@ -1,5 +1,7 @@
 from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, g
+from flask import (
+    render_template, flash, redirect, url_for, request, g, jsonify
+    )
 from flask_babel import _, get_locale
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
@@ -11,6 +13,7 @@ from app.forms import (
     )
 from app.models import User, Post
 from app.email import send_password_reset_email
+from app.translate import translate
 
 
 @my_app.before_request
@@ -194,3 +197,11 @@ def unfollow(username):
     db.session.commit()
     flash(_('You are not following %(username)s.', username=username))
     return redirect(url_for('user', username=username))
+
+
+@my_app.route('/translate', methods=['POST'])
+@login_required
+def translate_text():
+    return jsonify({'text': translate(request.form['text'],
+                                      request.form['source_language'],
+                                      request.form['dest_language'])})
