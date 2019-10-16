@@ -1,7 +1,7 @@
-from app import current_app, db, cli
+from app import create_app, db, cli
 from app.models import User, Post
 
-app = current_app()
+app = create_app()
 cli.register(app)
 
 
