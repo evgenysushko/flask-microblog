@@ -1,0 +1,30 @@
+# Packages
+bin
+var
+lib
+lib64
+__pycache__
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+
+# Virtual environment
+venv
+
+# IDE configs
+.vscode
+.pylintrc
+
+# Logs
+logs
+
+# DB
+app.db
