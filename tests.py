@@ -1,13 +1,22 @@
 import unittest
 from datetime import datetime, timedelta
-from app import app, db
+from app import create_app, db
 from app.models import Post, User
+from config import Config
+
+
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
 
 
 class UserModelCase(unittest.TestCase):
     def setUp(self):
         # this will create the DB in memory
-        app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite://"
+        # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite://"
+        self.app = create_app(TestConfig)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
         # creates all DB tables in memory
         db.create_all()
 
@@ -16,6 +25,7 @@ class UserModelCase(unittest.TestCase):
         db.session.remove()
         # deletes all the tables
         db.drop_all()
+        self.app_context.pop()
 
     def test_password_hashing(self):
         """Test for password hashing"""
