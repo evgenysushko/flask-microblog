@@ -27,6 +27,7 @@ venv
 
 # Logs
 logs
+*.log*
 
 # DB
 app.db
