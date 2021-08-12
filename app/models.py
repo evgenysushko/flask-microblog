@@ -81,8 +81,8 @@ class User(UserMixin, db.Model):
                                     foreign_keys='Message.sender_id',
                                     backref='author', lazy='dynamic')
     messages_received = db.relationship('Message',
-                                    foreign_keys='Message.recipient_id',
-                                    backref='recipient', lazy='dynamic')
+                                        foreign_keys='Message.recipient_id',
+                                        backref='recipient', lazy='dynamic')
     last_message_read_time = db.Column(db.DateTime)
     notifications = db.relationship('Notification', backref='user',
                                     lazy='dynamic')
@@ -199,7 +199,7 @@ class Notification(db.Model):
     payload_json = db.Column(db.Text)
 
     def get_data(self):
-        return json.loads(str.self.payload_json)
+        return json.loads(str(self.payload_json))
 
 
 class Task(db.Model):
