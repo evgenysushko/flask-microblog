@@ -34,7 +34,7 @@ def export_posts(user_id):
         for post in user.posts.order_by(Post.timestamp.asc()):
             data.append({'body': post.body,
                          'timestamp': post.timestamp.isoformat() + 'Z'})
-            time.sleep(1)
+            time.sleep(5)
             i += 1
             _set_task_progress(100 * i // total_posts)
 
